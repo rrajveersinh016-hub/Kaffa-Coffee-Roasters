@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kaffa Coffee Roasters | Official Drink of a Dry State</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-dark: #2C1810;
+            --secondary-cream: #F5E6D3;
+            --accent-gold: #C9A96E;
+            --bg-offwhite: #FAF7F2;
+            --text-light: #FAF7F2;
+            --text-dark: #2C1810;
+            --font-heading: 'Playfair Display', serif;
+            --font-body: 'Lato', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-body);
+            color: var(--text-dark);
+            background-color: var(--bg-offwhite);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 600; }
+        a { text-decoration: none; color: inherit; }
+        button { font-family: var(--font-body); cursor: pointer; border: none; background: none; }
+        ul { list-style: none; }
+
+        .container { padding: 5rem 1.5rem; max-width: 1200px; margin: 0 auto; }
+        .text-center { text-align: center; }
+        .gold-text { color: var(--accent-gold); }
+        
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 4px;
+            transition: var(--transition);
+            min-height: 52px; /* Touch friendly minimum 48px */
+            width: 100%;
+        }
+        .btn-gold { background-color: var(--accent-gold); color: var(--primary-dark); }
+        .btn-gold:hover { background-color: #b5955a; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(201, 169, 110, 0.3); }
+        .btn-outline { border: 2px solid var(--accent-gold); color: var(--accent-gold); }
+        .btn-outline:hover { background-color: var(--accent-gold); color: var(--primary-dark); transform: translateY(-2px); }
+
+        @media (min-width: 768px) {
+            .btn { width: auto; }
+        }
+
+        /* Header */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%;
+            background-color: rgba(44, 24, 16, 0.98);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 1.5rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid rgba(201, 169, 110, 0.15);
+            height: 70px;
+        }
+        .logo { color: var(--accent-gold); font-family: var(--font-heading); font-size: 1.25rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 0.5rem; }
+        .nav-links { display: none; }
+        .hamburger { color: var(--accent-gold); font-size: 1.5rem; min-height: 48px; min-width: 48px; display: flex; align-items: center; justify-content: flex-end; }
+
+        .mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background-color: var(--primary-dark);
+            z-index: 1001;
+            transition: right 0.4s cubic-bezier(0.77, 0, 0.175, 1);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+        }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu a { color: var(--accent-gold); font-size: 1.8rem; margin: 1.5rem 0; font-family: var(--font-heading); text-transform: uppercase; letter-spacing: 2px; }
+        .close-menu { position: absolute; top: 1rem; right: 1.5rem; color: var(--accent-gold); font-size: 2.5rem; min-height: 48px; min-width: 48px; display: flex; align-items: center; justify-content: flex-end; }
+
+        @media (min-width: 768px) {
+            header { padding: 1rem 3rem; }
+            .logo { font-size: 1.5rem; }
+            .hamburger { display: none; }
+            .nav-links { display: flex; gap: 2.5rem; }
+            .nav-links a { color: var(--accent-gold); font-weight: 400; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 1px; transition: var(--transition); }
+            .nav-links a:hover { color: #fff; }
+        }
+
+        /* Hero */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(44, 24, 16, 0.75), rgba(44, 24, 16, 0.95)), 
+                        url('https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&w=1600&q=80') center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+            text-align: center; color: var(--text-light);
+            padding: 0 1.5rem;
+            position: relative;
+        }
+        .floating-cup { font-size: 4rem; margin-bottom: 2rem; animation: float 3.5s ease-in-out infinite; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.3)); }
+        @keyframes float { 0% { transform: translateY(0); } 50% { transform: translateY(-15px); } 100% { transform: translateY(0); } }
+        
+        .hero h1 { font-size: 3.2rem; line-height: 1.1; margin-bottom: 1rem; color: var(--accent-gold); }
+        .hero h2 { font-size: 1.2rem; font-family: var(--font-body); font-weight: 400; margin-bottom: 1.5rem; letter-spacing: 1px; }
+        .hero p { font-size: 0.95rem; margin-bottom: 2.5rem; opacity: 0.8; letter-spacing: 0.5px; }
+        .hero-btns { display: flex; flex-direction: column; gap: 1rem; width: 100%; max-width: 320px; }
+        
+        @media (min-width: 768px) {
+            .floating-cup { font-size: 5rem; }
+            .hero h1 { font-size: 5.5rem; }
+            .hero h2 { font-size: 1.6rem; }
+            .hero p { font-size: 1.1rem; }
+            .hero-btns { flex-direction: row; max-width: none; justify-content: center; gap: 1.5rem; }
+        }
+
+        /* About */
+        .about { background-color: var(--secondary-cream); }
+        .about .container { padding-top: 6rem; padding-bottom: 6rem; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.8rem; margin-bottom: 1.5rem; color: var(--primary-dark); }
+        .section-header p { font-size: 1.15rem; max-width: 800px; margin: 0 auto; color: #4a3328; }
+        
+        .stats-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .stat-card {
+            background: white; padding: 2.5rem 2rem; border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(44, 24, 16, 0.06);
+            border-bottom: 4px solid var(--accent-gold);
+            text-align: center;
+        }
+        .stat-card h3 { font-size: 2.5rem; color: var(--accent-gold); margin-bottom: 0.5rem; }
+        .stat-card p { font-weight: 700; color: var(--primary-dark); font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; }
+        
+        @media (min-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        }
+
+        /* Signatures */
+        .signatures { background-color: var(--primary-dark); color: var(--text-light); }
+        .signatures .section-header h2 { color: var(--accent-gold); }
+        
+        .sig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .sig-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid rgba(201, 169, 110, 0.1);
+            transition: var(--transition);
+            display: flex; flex-direction: column;
+        }
+        .sig-card:hover { border-color: var(--accent-gold); transform: translateY(-5px); background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .sig-icon { font-size: 2.5rem; margin-bottom: 1rem; display: block; }
+        .sig-card h3 { font-size: 1.2rem; margin-bottom: 0.5rem; color: var(--accent-gold); line-height: 1.3; }
+        .sig-card p { font-size: 0.9rem; opacity: 0.7; margin-bottom: 1.5rem; flex-grow: 1; }
+        .sig-price { font-weight: 700; color: #fff; font-family: var(--font-heading); font-size: 1.1rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 1rem; }
+        
+        @media (min-width: 768px) {
+            .sig-grid { grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+            .sig-card { padding: 2.5rem; }
+            .sig-card h3 { font-size: 1.4rem; }
+        }
+
+        /* Full Menu */
+        .full-menu { background-color: var(--bg-offwhite); }
+        .menu-wrapper { display: flex; flex-direction: column; gap: 1.5rem; }
+        
+        .menu-tabs { display: flex; flex-direction: column; gap: 0.5rem; }
+        .tab-btn {
+            padding: 1.25rem 1.5rem; background: white; border-radius: 8px; font-weight: 700;
+            text-align: left; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03); font-size: 1.05rem; color: var(--primary-dark);
+            border: 1px solid transparent; transition: var(--transition);
+        }
+        .tab-btn:hover { border-color: rgba(201, 169, 110, 0.3); }
+        .tab-btn.active { background: var(--primary-dark); color: var(--accent-gold); box-shadow: 0 10px 20px rgba(44, 24, 16, 0.15); }
+        .tab-btn::after { content: '+'; font-size: 1.5rem; font-weight: 300; }
+        .tab-btn.active::after { content: '-'; }
+        
+        .tab-content {
+            display: none; padding: 1.5rem; background: white; border-radius: 8px;
+            margin-top: -0.5rem; margin-bottom: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.04);
+        }
+        .tab-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+        .menu-list { display: flex; flex-direction: column; gap: 1rem; }
+        .menu-item { padding-bottom: 1rem; border-bottom: 1px dashed rgba(0,0,0,0.1); font-size: 1.1rem; color: #4a3328; display: flex; align-items: center; gap: 0.75rem; }
+        .menu-item::before { content: '🤎'; font-size: 0.8rem; opacity: 0.5; }
+        .menu-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (min-width: 768px) {
+            .menu-wrapper { flex-direction: row; gap: 3rem; align-items: flex-start; }
+            .menu-tabs { min-width: 300px; flex-shrink: 0; position: sticky; top: 100px; }
+            .tab-btn::after { display: none; }
+            .tab-content { margin-top: 0; flex-grow: 1; padding: 3rem; margin-bottom: 0; }
+            .menu-item { font-size: 1.2rem; padding-bottom: 1.25rem; }
+        }
+
+        /* Locations */
+        .locations { background-color: var(--primary-dark); color: var(--text-light); }
+        .locations .section-header h2 { color: var(--accent-gold); }
+        .locations .section-header p { color: rgba(255,255,255,0.7); }
+        
+        .loc-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+        .loc-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            padding: 2.5rem 2rem; border-radius: 12px;
+            border-left: 4px solid var(--accent-gold);
+            transition: var(--transition);
+        }
+        .loc-card:hover { transform: translateY(-5px); background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)); box-shadow: 0 15px 40px rgba(0,0,0,0.3); }
+        .loc-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--accent-gold); display: flex; align-items: center; gap: 0.5rem; }
+        .loc-card p { opacity: 0.8; margin-bottom: 0.5rem; font-size: 1rem; }
+        .loc-hours { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; color: #aaa; }
+        .loc-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.5rem; color: var(--accent-gold); font-weight: 700; text-transform: uppercase; font-size: 0.9rem; letter-spacing: 1px; }
+        .loc-link:hover { color: #fff; }
+        
+        @media (min-width: 768px) {
+            .loc-grid { grid-template-columns: repeat(2, 1fr); gap: 2rem; }
+        }
+
+        /* Reviews */
+        .reviews { background-color: var(--secondary-cream); }
+        .rev-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+        .rev-card { background: white; padding: 3rem 2rem; border-radius: 12px; position: relative; box-shadow: 0 15px 40px rgba(44, 24, 16, 0.05); text-align: center; }
+        .rev-card::before { content: '"'; position: absolute; top: 1rem; left: 2rem; font-family: var(--font-heading); font-size: 6rem; color: rgba(201, 169, 110, 0.1); line-height: 1; }
+        .stars { color: var(--accent-gold); font-size: 1.25rem; margin-bottom: 1.5rem; letter-spacing: 2px; }
+        .rev-card p { font-style: italic; font-size: 1.15rem; color: #4a3328; line-height: 1.8; }
+        
+        @media (min-width: 768px) {
+            .rev-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        /* Instagram */
+        .instagram { background-color: #1a0e0a; color: var(--text-light); text-align: center; }
+        .instagram h2 { font-size: 2.8rem; margin-bottom: 0.5rem; color: #fff; }
+        .insta-handle { color: var(--accent-gold); font-size: 1.2rem; margin-bottom: 3rem; display: block; font-weight: 700; letter-spacing: 1px; }
+        
+        .insta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-bottom: 3rem; }
+        .insta-post { 
+            aspect-ratio: 1; 
+            background: linear-gradient(135deg, #2C1810, #C9A96E); 
+            border-radius: 4px; 
+            transition: var(--transition);
+            display: flex; justify-content: center; align-items: center;
+            font-size: 2rem; color: rgba(255,255,255,0.5);
+        }
+        .insta-post:hover { opacity: 0.8; transform: scale(0.97); }
+        
+        @media (min-width: 768px) {
+            .insta-grid { grid-template-columns: repeat(6, 1fr); gap: 1rem; }
+            .insta-post { border-radius: 8px; }
+        }
+
+        /* Contact */
+        .contact { background-color: var(--bg-offwhite); }
+        .contact-wrapper { background: white; padding: 4rem 2rem; border-radius: 16px; box-shadow: 0 20px 50px rgba(44, 24, 16, 0.08); text-align: center; max-width: 800px; margin: 0 auto; }
+        .contact-wrapper h3 { font-size: 2rem; color: var(--primary-dark); margin-bottom: 2rem; }
+        
+        .contact-phones { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 3rem; }
+        .contact-phones a { font-size: 1.8rem; font-weight: 700; color: var(--primary-dark); display: inline-block; padding: 1rem; background: var(--bg-offwhite); border-radius: 8px; transition: var(--transition); }
+        .contact-phones a:hover { color: var(--accent-gold); background: var(--primary-dark); transform: translateY(-3px); }
+        
+        .badges { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 3rem; }
+        .badge { background: white; padding: 0.75rem 1.5rem; border-radius: 50px; font-size: 0.95rem; font-weight: 700; color: var(--primary-dark); border: 2px solid rgba(201, 169, 110, 0.3); display: flex; align-items: center; gap: 0.5rem; }
+        
+        @media (min-width: 768px) {
+            .contact-phones { flex-direction: row; justify-content: center; gap: 2rem; }
+            .contact-wrapper { padding: 5rem; }
+        }
+
+        /* Footer */
+        footer { background-color: var(--primary-dark); color: var(--text-light); padding: 5rem 1.5rem 3rem; text-align: center; border-top: 5px solid var(--accent-gold); }
+        .footer-logo { font-size: 2.5rem; font-family: var(--font-heading); color: var(--accent-gold); margin-bottom: 1rem; display: flex; justify-content: center; align-items: center; gap: 0.5rem; }
+        .footer-tagline { opacity: 0.8; margin-bottom: 3rem; font-size: 1.1rem; letter-spacing: 1px; }
+        .footer-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-bottom: 4rem; }
+        .footer-links a { font-weight: 700; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; transition: var(--transition); border-bottom: 1px solid transparent; padding-bottom: 2px; }
+        .footer-links a:hover { color: var(--accent-gold); border-bottom-color: var(--accent-gold); }
+        .copyright { opacity: 0.5; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="#" class="logo">🦊 KAFFA</a>
+        <div class="hamburger" aria-label="Menu" role="button">☰</div>
+        <nav class="nav-links">
+            <a href="#menu">Menu</a>
+            <a href="#locations">Locations</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <div class="mobile-menu">
+        <div class="close-menu" aria-label="Close Menu" role="button">×</div>
+        <a href="#menu">Menu</a>
+        <a href="#locations">Locations</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+    </div>
+
+    <section class="hero">
+        <div class="floating-cup">☕</div>
+        <h1 class="fade-in">Kaffa Coffee Roasters</h1>
+        <h2 class="fade-in">Official Drink of a Dry State 🤎</h2>
+        <p class="fade-in">4 Locations across Ahmedabad & Baroda</p>
+        <div class="hero-btns fade-in">
+            <a href="#menu" class="btn btn-gold">Explore Menu</a>
+            <a href="#locations" class="btn btn-outline">Find Us</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Where Coffee Becomes an Experience</h2>
+                <p>Kaffa Coffee Roasters is Ahmedabad's most loved premium coffee destination. With 4 years of crafting exceptional brews and a menu that goes far beyond coffee, we've become the Official Drink of a Dry State. From our signature Vietnamese Brew to artisanal Cold Brews, every cup is made with intention.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card fade-in">
+                    <h3>21K+</h3>
+                    <p>Followers</p>
+                </div>
+                <div class="stat-card fade-in">
+                    <h3>4+</h3>
+                    <p>Locations</p>
+                </div>
+                <div class="stat-card fade-in">
+                    <h3>4.3★</h3>
+                    <p>Rating</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="signatures" class="signatures">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Our Signatures</h2>
+                <p>The brews and bites that made us famous</p>
+            </div>
+            <div class="sig-grid">
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">☕</span>
+                    <h3>Vietnamese Brew</h3>
+                    <p>Our most loved brew. Rich, smooth, with the perfect kick. A Kaffa signature you'll keep coming back for.</p>
+                    <div class="sig-price">₹180-220</div>
+                </div>
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">🧊</span>
+                    <h3>Cold Brew</h3>
+                    <p>Brewed cold for 12+ hours. Bold flavor, zero bitterness. Perfect for Ahmedabad summers.</p>
+                    <div class="sig-price">₹160-200</div>
+                </div>
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">🤎</span>
+                    <h3>Espresso Based</h3>
+                    <p>From flat whites to cappuccinos, our espresso speaks for itself.</p>
+                    <div class="sig-price">₹140-200</div>
+                </div>
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">🧀</span>
+                    <h3>Four Cheese Fries</h3>
+                    <p>Crispy fries smothered in four premium cheeses. Sinfully good.</p>
+                    <div class="sig-price">₹280-320</div>
+                </div>
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">🫙</span>
+                    <h3>Mezze Platter</h3>
+                    <p>A Mediterranean journey on a plate. Perfect for sharing.</p>
+                    <div class="sig-price">₹380-420</div>
+                </div>
+                <div class="sig-card fade-in">
+                    <span class="sig-icon">🌮</span>
+                    <h3>Mexican Hot Pot</h3>
+                    <p>Bold spices, hearty ingredients, big flavors.</p>
+                    <div class="sig-price">₹340-380</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="menu" class="full-menu">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Explore Our Full Menu</h2>
+                <p>Something special for every craving</p>
+            </div>
+            <div class="menu-wrapper">
+                <div class="menu-tabs fade-in">
+                    <button class="tab-btn active" data-target="tab-coffee">☕ Coffee & Drinks</button>
+                    <button class="tab-btn" data-target="tab-bakery">🥐 Breakfast & Bakery</button>
+                    <button class="tab-btn" data-target="tab-sandwiches">🥪 Sandwiches</button>
+                    <button class="tab-btn" data-target="tab-mains">🍕 Mains</button>
+                    <button class="tab-btn" data-target="tab-smallplates">🥗 Small Plates</button>
+                </div>
+                <div class="tab-content-wrapper fade-in" style="flex-grow: 1;">
+                    <div id="tab-coffee" class="tab-content active">
+                        <div class="menu-list">
+                            <div class="menu-item">Vietnamese Brew</div>
+                            <div class="menu-item">Cold Brew</div>
+                            <div class="menu-item">Espresso</div>
+                            <div class="menu-item">Iced Blends</div>
+                            <div class="menu-item">Hot Chocolate</div>
+                            <div class="menu-item">Chocolate Frappe</div>
+                            <div class="menu-item">Hot Tea</div>
+                        </div>
+                    </div>
+                    <div id="tab-bakery" class="tab-content">
+                        <div class="menu-list">
+                            <div class="menu-item">Croissants</div>
+                            <div class="menu-item">Pancakes</div>
+                            <div class="menu-item">Waffles</div>
+                            <div class="menu-item">Bagels</div>
+                            <div class="menu-item">Cookies</div>
+                        </div>
+                    </div>
+                    <div id="tab-sandwiches" class="tab-content">
+                        <div class="menu-list">
+                            <div class="menu-item">BBQ Sandwich</div>
+                            <div class="menu-item">Grilled Mushroom</div>
+                            <div class="menu-item">Avocado</div>
+                            <div class="menu-item">Bombay Club</div>
+                            <div class="menu-item">Italian Focaccia</div>
+                        </div>
+                    </div>
+                    <div id="tab-mains" class="tab-content">
+                        <div class="menu-list">
+                            <div class="menu-item">Pesto Pizza</div>
+                            <div class="menu-item">Truffle Mushroom Risotto</div>
+                            <div class="menu-item">Basil Pesto Risotto</div>
+                            <div class="menu-item">Spinach Ravioli</div>
+                            <div class="menu-item">Mexican Hot Pot</div>
+                        </div>
+                    </div>
+                    <div id="tab-smallplates" class="tab-content">
+                        <div class="menu-list">
+                            <div class="menu-item">Mezze Platter</div>
+                            <div class="menu-item">Four Cheese Fries</div>
+                            <div class="menu-item">Falafel</div>
+                            <div class="menu-item">Caprese</div>
+                            <div class="menu-item">Quesadilla</div>
+                            <div class="menu-item">Garlic Bread</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="locations" class="locations">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>Find Your Kaffa</h2>
+                <p>4 locations serving exceptional coffee</p>
+            </div>
+            <div class="loc-grid">
+                <div class="loc-card fade-in">
+                    <h3>📍 IIM Road, Vastrapur</h3>
+                    <p>Ground Floor, Opp. Atira,</p>
+                    <p>Near Apang Manav Mandal</p>
+                    <div class="loc-hours">Mon-Fri 11AM-12AM<br>Sat-Sun 9AM-12AM</div>
+                    <a href="#" class="loc-link">Get Directions →</a>
+                </div>
+                <div class="loc-card fade-in">
+                    <h3>📍 Bodakdev</h3>
+                    <p>Near IIM Road,</p>
+                    <p>Ahmedabad</p>
+                    <div class="loc-hours">Mon-Fri 11AM-12AM<br>Sat-Sun 9AM-12AM</div>
+                    <a href="#" class="loc-link">Get Directions →</a>
+                </div>
+                <div class="loc-card fade-in">
+                    <h3>✈️ Ahmedabad Airport</h3>
+                    <p>Gate 10, T1</p>
+                    <p>Domestic Departure</p>
+                    <div class="loc-hours">Mon-Fri 11AM-12AM<br>Sat-Sun 9AM-12AM</div>
+                    <a href="#" class="loc-link">Get Directions →</a>
+                </div>
+                <div class="loc-card fade-in">
+                    <h3>📍 Baroda</h3>
+                    <p>Kaffa Coffee Roasters</p>
+                    <p>Baroda</p>
+                    <div class="loc-hours">Mon-Fri 11AM-12AM<br>Sat-Sun 9AM-12AM</div>
+                    <a href="#" class="loc-link">Get Directions →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews">
+        <div class="container">
+            <div class="section-header fade-in">
+                <h2>What Our Guests Say</h2>
+            </div>
+            <div class="rev-grid">
+                <div class="rev-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p>Cold brew? Easily among the best I've had. Smooth, bold, with just the right kick.</p>
+                </div>
+                <div class="rev-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p>The Vietnamese Brew is their signature — must try. Rich flavor, no bitterness.</p>
+                </div>
+                <div class="rev-card fade-in">
+                    <div class="stars">★★★★★</div>
+                    <p>Calm, warm, and welcoming ambiance. You can sit with a book or catch up with friends without feeling rushed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="instagram">
+        <div class="container" style="padding-top: 5rem; padding-bottom: 5rem;">
+            <h2 class="fade-in">Follow Our Journey</h2>
+            <span class="insta-handle fade-in">@kaffacoffeeroasters — 21.3K Followers</span>
+            <div class="insta-grid fade-in">
+                <a href="#" class="insta-post">📷</a>
+                <a href="#" class="insta-post">📷</a>
+                <a href="#" class="insta-post">📷</a>
+                <a href="#" class="insta-post">📷</a>
+                <a href="#" class="insta-post">📷</a>
+                <a href="#" class="insta-post">📷</a>
+            </div>
+            <a href="https://instagram.com/kaffacoffeeroasters" target="_blank" class="btn btn-gold fade-in" style="display: inline-flex;">Follow on Instagram</a>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="contact-wrapper fade-in">
+                <h3>Get In Touch</h3>
+                <div class="contact-phones">
+                    <a href="tel:9824002487">📞 98240 02487</a>
+                    <a href="tel:9824081917">📞 98240 81917</a>
+                </div>
+                <p style="font-size: 1.1rem; color: #4a3328;">Hours: Mon-Fri 11AM-12AM, Sat-Sun 9AM-12AM</p>
+                <div class="badges">
+                    <div class="badge">🌱 Pure Vegetarian</div>
+                    <div class="badge">🚗 Parking Available</div>
+                    <div class="badge">💳 Cards Accepted</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container" style="padding-top: 0; padding-bottom: 0;">
+            <div class="footer-logo">🦊 KAFFA COFFEE ROASTERS</div>
+            <div class="footer-tagline">Official Drink of a Dry State 🤎</div>
+            <div class="footer-links">
+                <a href="#">Zomato</a>
+                <a href="#">Swiggy</a>
+                <a href="https://instagram.com/kaffacoffeeroasters">Instagram</a>
+            </div>
+            <div class="copyright">© 2025 Kaffa Coffee Roasters. All rights reserved.</div>
+        </div>
+    </footer>
+
+    <script>
+        // Hamburger Menu
+        const hamburger = document.querySelector('.hamburger');
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const closeMenu = document.querySelector('.close-menu');
+        const mobileLinks = document.querySelectorAll('.mobile-menu a');
+
+        function toggleMenu() {
+            mobileMenu.classList.toggle('active');
+            document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+        }
+
+        hamburger.addEventListener('click', toggleMenu);
+        closeMenu.addEventListener('click', toggleMenu);
+
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+
+        // Intersection Observer for scroll animations
+        const fadeElements = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Run once
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Menu Tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-target');
+                
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                btn.classList.add('active');
+                document.getElementById(targetId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
